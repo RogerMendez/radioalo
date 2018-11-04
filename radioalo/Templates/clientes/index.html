@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nuestros Clientes
+{% endblock %}
+
+{% block menuizq %}
+{% include 'clientes/__menu.html' %}
+{% endblock %}
+
+{% block content %}
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>CI/NIT</th>
+            <th>Telefono</th>
+            <th>Celular</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for cliente in clientes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ cliente.razon }}</td>
+                <td>{{ cliente.cinit }}</td>
+                <td>{{ cliente.telefono }}</td>
+                <td>{{ cliente.celular }}</td>
+                <td>
+                    {% if cliente.estado %}
+                        <a href="{% url 'cliente-deactivate' cliente.id %}" class="btn-sm btn-success" title="Desactivar Cliente">
+                            <i class="fas fa-check-circle"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'cliente-activate' cliente.id %}" class="btn-sm btn-danger" title="Activar Cliente">
+                            <i class="fas fa-window-close"></i>
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'cliente-update' cliente.id %}" class="btn-sm btn-warning" title="Modificar Cliente">
+                        <i class="fas fa-pencil-alt"></i>
+                    </a>
+                </td>
+            </tr>        
+        {% endfor %}
+        
+    </tbody>
+</table>
+{% endblock %}

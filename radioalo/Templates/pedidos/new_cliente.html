@@ -1,0 +1,170 @@
+{% extends '__form.html' %}
+
+{% block title %}
+Nuevo Pedido
+{% endblock %}
+
+{% block menuizq %}
+{% include 'pedidos/__menu.html' %}
+{% endblock %}
+
+{% block legend %}
+Registrar Pedido
+{% endblock %}
+
+{% block content_form %}
+{% for field in form %}
+    {% if field.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ field.errors }}
+        </div>
+    {% endif %}
+    <div class="form-group row">
+        {{ field.label_tag }}
+        <div class="col-md-9">
+            {{ field }}
+            {% if field.help_text %}
+                <small id="emailHelp" class="form-text text-muted">
+                    {{ field.help_text|safe }}
+                </small>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+
+{% for field in formpedido %}
+    {% if field.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ field.errors }}
+        </div>
+    {% endif %}
+    <div class="form-group row">
+        {{ field.label_tag }}
+        <div class="col-md-9">
+            {{ field }}
+            {% if field.help_text %}
+                <small id="emailHelp" class="form-text text-muted">
+                    {{ field.help_text|safe }}
+                </small>
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}
+{% endblock %}
+
+{% block infoformbotton %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="" id="map" style="height: 400px;"></div>
+    </div>
+</div>
+    <hr>
+{% endblock %}
+
+{% block myjs %}
+<style>
+    .none{
+        display: none;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        $('#id_cinit').change(function () {
+            var cinit = $(this).val();
+            $.ajax({
+                data:{'cinit': cinit},
+                url:"{% url 'pedidos-ajax-cliente-getting' %}",
+                type:'GET',
+                success: function(data){
+                    if(data[0]) {
+                        $('#id_razon').val(data[0]['razon']);
+                        $('#id_telefono').val(data[0]['telefono']);
+                        $('#id_celular').val(data[0]['celular']);
+                    }
+                },
+                failure: function(data){
+                    console.log('error')
+                }
+            });
+        });
+        $('#id_olat').parent().parent().addClass('none');
+        $('#id_olong').parent().parent().addClass('none');
+        $('#id_dlat').parent().parent().addClass('none');
+        $('#id_dlong').parent().parent().addClass('none');
+    });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy3glLO2xspv6L96CRfuncvvBSQDc_rBc&callback=initMap" async defer></script>
+<script>
+{% load staticfiles %}
+    var map;
+    function initMap() {
+        var latitud = -19.5825546;
+        var longitud = -65.7600394;
+        var myLatLng = {lat: -19.5825546, lng: -65.7600394};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15
+        });
+        var contentStringo = '' +
+            '<div id="content">'+
+                '<div id="title">'+
+                '</div>'+
+                '<h6 id="" class="firstHeading">Origen de Pedido</h6>'+
+            '</div>';
+
+        var infowindowo = new google.maps.InfoWindow({
+            content: contentStringo,
+            maxWidth: 500
+        });
+        var markero = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            icon: "{% static 'map-icon/origen.png' %}",
+            draggable: true
+            //title: 'Unicacion Actual del Movil'
+        });
+        markero.addListener('click', function() {
+            infowindowo.open(map, markero);
+        });
+
+        google.maps.event.addListener(markero, 'dragend', function (evt) {
+            //document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
+            $('#id_olat').val(evt.latLng.lat());
+            $('#id_olong').val(evt.latLng.lng());
+            /*alert(evt.latLng.lng());
+            alert(evt.latLng.lat());*/
+        });
+
+        var contentStringd = '' +
+            '<div id="content">'+
+                '<div id="title">'+
+                '</div>'+
+                '<h6 id="" class="firstHeading">Destino de Pedido</h6>'+
+            '</div>';
+        var myLatLngd = {lat: -19.5844546, lng: -65.7600394};
+
+        var infowindowd = new google.maps.InfoWindow({
+            content: contentStringd,
+            maxWidth: 500
+        });
+        var markerd = new google.maps.Marker({
+            position: myLatLngd,
+            map: map,
+            icon: "{% static 'map-icon/destino.png' %}",
+            draggable: true
+            //title: 'Unicacion Actual del Movil'
+        });
+        markerd.addListener('click', function() {
+            infowindowd.open(map, markerd);
+        });
+
+        google.maps.event.addListener(markerd, 'dragend', function (evt) {
+            //document.getElementById('current').innerHTML = '<p>Marker dropped: Current Lat: ' + evt.latLng.lat().toFixed(3) + ' Current Lng: ' + evt.latLng.lng().toFixed(3) + '</p>';
+            $('#id_dlat').val(evt.latLng.lat());
+            $('#id_dlong').val(evt.latLng.lng());
+            //alert(evt.latLng.lng());
+            //alert(evt.latLng.lat());
+        });
+    }
+</script>
+{% endblock %}

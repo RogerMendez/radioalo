@@ -1,0 +1,72 @@
+{% extends '__form.html' %}
+
+{% block title %}
+Registar Conductor
+{% endblock %}
+
+{% block menuizq %}
+{% include 'conductores/__menu.html' %}
+{% endblock %}
+
+{% block legend %}
+Registrar Conductor
+{% endblock %}
+
+{% block content_form %}
+    {% for field in formuser %}
+        {% if field.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+        <div class="form-group row">
+            {{ field.label_tag }}
+            <div class="col-md-9">
+                {{ field }}
+                {% if field.help_text %}
+                    <small id="emailHelp" class="form-text text-muted">
+                        {{ field.help_text|safe }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for field in formperfil %}
+        {% if field.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+        <div class="form-group row">
+            {{ field.label_tag }}
+            <div class="col-md-9">
+                {{ field }}
+                {% if field.help_text %}
+                    <small id="emailHelp" class="form-text text-muted">
+                        {{ field.help_text|safe }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for field in form %}
+        {% if field.errors %}
+            <div class="alert alert-danger" role="alert">
+                {{ field.errors }}
+            </div>
+        {% endif %}
+        <div class="form-group row">
+            {{ field.label_tag }}
+            <div class="col-md-9">
+                {{ field }}
+                {% if field.help_text %}
+                    <small id="emailHelp" class="form-text text-muted">
+                        {{ field.help_text|safe }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

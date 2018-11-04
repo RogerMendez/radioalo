@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Pedidos Terminados
+{% endblock %}
+
+{% block menuizq %}
+{% include 'pedidos/__menu.html' %}
+{% endblock %}
+
+{% block content %}
+<h3>Pedidos Terminados</h3>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Cliente</th>
+                <th>CI/NIT</th>
+                <th>Dirección</th>
+                <th>Cantidad Moviles</th>
+                <th>Costo</th>
+                <th>Vehiculos</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ pedido.fecha|date:"d-M-Y" }}</td>
+                    <td>{{ pedido.time|time }}</td>
+                    <td>{{ pedido.cliente.razon }}</td>
+                    <td>{{ pedido.cliente.cinit }}</td>
+                    <td>{{ pedido.direccion }}</td>
+                    <td>{{ pedido.cantidad }}</td>
+                    <td>{{ pedido.monto }} Bs.</td>
+                    <td>
+                        {% for pconductor in pedido.pedidovehiculo_set.all %}
+                            <p>
+                                {{ pconductor.conductor }}: {{ pconductor.conductor.vehiculo.placa }}
+                                <a href="{% url 'pedidos-terminado-show' pedido.id pconductor.conductor.id %}" class="btn-sm btn btn-primary" title="Ver Seguimiento">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </a>
+                            </p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Bienvenido
+{% endblock %}
+
+{% block content %}
+    <h2>Atencion de Clientes</h2>
+    <p>
+        <strong>Conductor: </strong>{{ request.user.first_name }} {{ request.user.last_name }}
+    </p>
+    <p>
+        <strong>Placa: </strong>{{ conductor.vehiculo.placa }}
+    </p>
+    <hr>
+    <div class="row">
+        <h4>Informacion de Cliente</h4>
+        <div class="col-md-6">
+            <p>
+                <strong>Cliente: </strong>{{ pedido.cliente.razon }}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p>
+                <strong>CI/NIT: </strong>{{ pedido.cliente.cinit }}
+            </p>
+        </div>
+        <div class="col-md-12">
+            <button class="btn-lg btn btn-success" id="origen-button">
+                <i class="fa fa-user-plus"></i> Registrar Origen
+            </button>
+        </div>
+        <div class="col-md-12"></div>
+        <div class="col-md-12">
+            <button class="btn-lg btn btn-danger" id="destino-button">
+                <i class="fa fa-user-minus"></i> Registrar Destino
+            </button>
+        </div>
+        {% if pedido.destino_set.select_related.count > 0 %}
+            <div class="col-md-12"></div>
+            <div class="col-md-12">
+                <button type="button" class="btn-lg btn btn-info" data-toggle="modal" data-target=".bs-example-modal-lg">
+                    <i class="fa fa-user-clock"></i> Terminar Pedido
+                </button>
+            </div>
+            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <!--button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button-->
+                            <h4 class="modal-title" id="myLargeModalLabel">Registrar Costo Pedido</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'movile-pedido-terminate' pedido.id %}" method="post">{% csrf_token %}
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Costo Pedido</label>
+                                    <input type="number" class="form-control" id="costo" name="monto" placeholder="Monto de Pedido">
+                                </div>
+                                <button type="submit" class="btn btn-default">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block myjs %}
+<script type="text/javascript">
+    $(document).ready(function(){
+        var refreshId = setInterval(refrescarTablaEstadoSala, 10000);
+        $.ajaxSetup({ cache: false });
+        var lon, lat;
+        function refrescarTablaEstadoSala() {
+            $('#errorgeo').addClass('none');
+            if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(objPosition){
+                    var yolon = objPosition.coords.longitude;
+                    var yolat = objPosition.coords.latitude;
+                    $.ajax({
+                        data:{'latitud': yolat, 'longitud':yolon},
+                        url:"{% url 'movile-ajax-pedido-seguimiento' pedido.id conductor.id %}",
+                        type: "GET",
+                        success: function(data){
+                            if(data == 'no'){
+                                refrescarTablaEstadoSala();
+                            }
+                            else{
+                                console.log('ubicacion enviada correctamente');
+                            }
+                        },
+                        failure: function(data){
+                            console.log('error');
+                        }
+                    });
+                }, function(objPositionError){
+                    var div = $('#errorgeo');
+                    div.removeClass('none');
+                    switch (objPositionError.code)
+                    {
+                        case objPositionError.PERMISSION_DENIED:
+                            div.html("No se ha permitido el acceso a la posición del usuario.");
+                        break;
+                        case objPositionError.POSITION_UNAVAILABLE:
+                            div.html("No se ha podido acceder a la información de su posición.");
+                        break;
+                        case objPositionError.TIMEOUT:
+                            div.html("El servicio ha tardado demasiado tiempo en responder.");
+                        break;
+                        default:
+                            div.html("Error desconocido.");
+                    }
+                }, {
+                    maximumAge: 10000,
+                    timeout: 5000
+                });
+            }
+            else{
+                $('#errorgeo').removeClass('none');
+                $('#errorgeo').html('Tu Navegador No Soporta Geolocalizacion');
+            }
+        }
+
+        $('#origen-button').click(function () {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(objPosition){
+                    lon = objPosition.coords.longitude;
+                    lat = objPosition.coords.latitude;
+                    var url = "{% url 'movile-pedido-register-origen' pedido.id conductor.id %}" + '?latitud=' + lat +'&longitud=' + lon;
+                    //alert(url);
+                    location.href = url;
+                }, function(objPositionError){
+                    var div = $('#errorgeo');
+                    div.removeClass('none');
+                    switch (objPositionError.code)
+                    {
+                        case objPositionError.PERMISSION_DENIED:
+                            div.html("No se ha permitido el acceso a la posición del usuario.");
+                        break;
+                        case objPositionError.POSITION_UNAVAILABLE:
+                            div.html("No se ha podido acceder a la información de su posición.");
+                        break;
+                        case objPositionError.TIMEOUT:
+                            div.html("El servicio ha tardado demasiado tiempo en responder.");
+                        break;
+                        default:
+                            div.html("Error desconocido.");
+                    }
+                }, {
+                    maximumAge: 10000,
+                    timeout: 5000
+                });
+            }
+        });
+        $('#destino-button').click(function () {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(objPosition){
+                    lon = objPosition.coords.longitude;
+                    lat = objPosition.coords.latitude;
+                    var url = "{% url 'movile-pedido-register-destino' pedido.id conductor.id %}" + '?latitud=' + lat +'&longitud=' + lon;
+                    //alert(url);
+                    location.href = url;
+                }, function(objPositionError){
+                    var div = $('#errorgeo');
+                    div.removeClass('none');
+                    switch (objPositionError.code)
+                    {
+                        case objPositionError.PERMISSION_DENIED:
+                            div.html("No se ha permitido el acceso a la posición del usuario.");
+                        break;
+                        case objPositionError.POSITION_UNAVAILABLE:
+                            div.html("No se ha podido acceder a la información de su posición.");
+                        break;
+                        case objPositionError.TIMEOUT:
+                            div.html("El servicio ha tardado demasiado tiempo en responder.");
+                        break;
+                        default:
+                            div.html("Error desconocido.");
+                    }
+                }, {
+                    maximumAge: 10000,
+                    timeout: 5000
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

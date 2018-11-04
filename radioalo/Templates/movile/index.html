@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Bienvenido
+{% endblock %}
+
+{% block content %}
+    <h2>Atencion de Clientes</h2>
+    <p>
+        <strong>Conductor: </strong>{{ request.user.first_name }} {{ request.user.last_name }}
+    </p>
+
+    {% for vehiculo in vehiculos %}
+        <p>
+            <strong>Placa: </strong>{{ vehiculo.placa }}
+        </p>
+    {% endfor %}
+    <div class="row" id="content-pedido">
+
+    </div>
+    <div id="errorgeo">
+    </div>
+{% endblock %}
+
+{% block myjs %}
+<script>
+        refrescarTablaEstadoSala();
+        var refreshId = setInterval(refrescarTablaEstadoSala, 10000);
+
+        function refrescarTablaEstadoSala() {
+            $('#errorgeo').addClass('none');
+            if (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function(objPosition){
+                    var yolon = objPosition.coords.longitude;
+                    var yolat = objPosition.coords.latitude;
+                    //var camion_id = "<?= $camion_id ?>";
+                    $.ajax({
+                        data:{'latitud': yolat, 'longitud':yolon},
+                        url:"{% url 'ubicacion-save' %}",
+                        type: "GET",
+                        success: function(data){
+                            if(data == 'no'){
+                                //refrescarTablaEstadoSala();
+                            }
+                            else{
+                                console.log('ubicacion enviada correctamente');
+                            }
+                        },
+                        failure: function(data){
+                            console.log('error');
+                        }
+                    });
+                    //AJAX Verificar Pedidos
+                    var html = $('#content-pedido').html();
+                    $.ajax({
+                        url:"{% url 'movile-ajax-pedido' %}",
+                        type: "GET",
+                        success: function(data){
+                            if(html != data) {
+                                console.log('con pedidos');
+                                $('#content-pedido').html(data);
+                            }
+                        },
+                        failure: function(data){
+                            console.log('error');
+                        }
+                    });
+
+                }, function(objPositionError){
+                    var div = $('#errorgeo');
+                    div.removeClass('none');
+                    switch (objPositionError.code)
+                    {
+                        case objPositionError.PERMISSION_DENIED:
+                            div.html("No se ha permitido el acceso a la posición del usuario.");
+                        break;
+                        case objPositionError.POSITION_UNAVAILABLE:
+                            div.html("No se ha podido acceder a la información de su posición.");
+                        break;
+                        case objPositionError.TIMEOUT:
+                            div.html("El servicio ha tardado demasiado tiempo en responder.");
+                        break;
+                        default:
+                            div.html("Error desconocido.");
+                    }
+                }, {
+                    maximumAge: 30000,
+                    timeout: 15000
+                });
+            }
+            else{
+                $('#errorgeo').removeClass('none');
+                $('#errorgeo').html('Tu Navegador No Soporta Geolocalizacion');
+            }
+        }
+
+</script>
+{% endblock %}

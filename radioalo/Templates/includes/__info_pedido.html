@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-6">
+        <p class="">
+            <strong>Ci/Nit: </strong>{{ pedido.cliente.cinit }}
+        </p>
+        <p>
+            <strong>Razon: </strong>{{ pedido.cliente.razon }}
+        </p>
+        <p class="">
+            <strong>Telefono: </strong>{{ pedido.cliente.telefono }}
+        </p>
+        <p>
+            <strong>Celular: </strong>{{ pedido.cliente.celular }}
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p class="">
+            <strong>Fecha Pedido: </strong>{{ pedido.fecha|date:"d-M-Y" }}
+        </p>
+        <p class="">
+            <strong>Hora Pedido: </strong>{{ pedido.time }} Hr.
+        </p>
+        <p class="">
+            <strong>Cantidad de Moviles: </strong>{{ pedido.cantidad }}
+        </p>
+        <p class="">
+            <strong>Direccion: </strong>{{ pedido.direccion }}
+        </p>
+    </div>
+</div>

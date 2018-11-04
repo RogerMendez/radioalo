@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Pedido Terminado
+{% endblock %}
+
+{% block menuizq %}
+{% include 'pedidos/__menu.html' %}
+{% endblock %}
+
+{% block myjs %}
+
+{% endblock %}
+
+{% block content %}
+{% load staticfiles %}
+{% include 'includes/__info_pedido.html' %}
+<div id="map" style="height: 500px;"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy3glLO2xspv6L96CRfuncvvBSQDc_rBc&callback=initMap" async defer></script>
+<script>
+    var map;
+    function initMap() {
+        var latitud = -19.5825546;
+        var longitud = -65.7600394;
+        var myLatLng = {lat: -19.5825546, lng: -65.7600394};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 13
+        });
+        var olat;
+        var olong;
+        var origen;
+        var destinol;
+        {% for origen in origenes %}
+            olat = '{{ origen.latitud }}'.replace(',', '.');
+            olong = '{{ origen.longitud }}'.replace(',', '.');
+            origen = {lat: parseFloat(olat), lng: parseFloat(olong)};
+            //alert(//lat);
+            contentStringo{{ forloop.counter }} = '' +
+                '<div id="content">'+
+                    '<div id="title">'+
+                    '</div>'+
+                    '<h6 id="" class="firstHeading">Origen</h6>'+
+                    '<div id="bodyContent">'+
+                    '<p><strong>Recojo de Persona</strong></p>'+
+                    '</div>'+
+                '</div>';
+
+            var infowindowo{{ forloop.counter }} = new google.maps.InfoWindow({
+                content: contentStringo{{ forloop.counter }},
+                maxWidth: 500
+            });
+            var markero{{ forloop.counter }} = new google.maps.Marker({
+                position: origen,
+                map: map,
+                icon: "{% static 'map-icon/park.png' %}"
+                //title: 'Unicacion Actual del Movil'
+            });
+            markero{{ forloop.counter }}.addListener('click', function() {
+                infowindowo{{ forloop.counter }}.open(map, markero{{ forloop.counter }});
+            });
+        {% endfor %}
+        {% for destino in destinos %}
+            olat = '{{ destino.latitud }}'.replace(',', '.');
+            olong = '{{ destino.longitud }}'.replace(',', '.');
+
+            destino = {lat: parseFloat(olat), lng: parseFloat(olong)};
+            var contentStringd{{ forloop.counter }} = '' +
+                '<div id="content">'+
+                    '<div id="title">'+
+                    '</div>'+
+                    '<h6 id="" class="firstHeading">Destino</h6>'+
+                    '<div id="bodyContent">'+
+                    '<p><strong>Destino de Persona</strong></p>'+
+                    '</div>'+
+                '</div>';
+
+            var infowindowd{{ forloop.counter }} = new google.maps.InfoWindow({
+                content: contentStringd{{ forloop.counter }},
+                maxWidth: 500
+            });
+            var markerd{{ forloop.counter }} = new google.maps.Marker({
+                position: destino,
+                map: map,
+                icon: "{% static 'map-icon/no park.png' %}"
+                //title: 'Unicacion Actual del Movil'
+            });
+            markerd{{ forloop.counter }}.addListener('click', function() {
+              infowindowd{{ forloop.counter }}.open(map, markerd{{ forloop.counter }});
+            });
+        {% endfor %}
+
+        {% for seguimiento in seguimientos %}
+            var slat = '{{ seguimiento.latitud }}'.replace(',', '.');
+            var slong = '{{ seguimiento.longitud }}'.replace(',', '.');
+            var seguimiento = {lat: parseFloat(olat), lng: parseFloat(olong)};
+            //alert(//lat);
+            contentStrings{{ forloop.counter }} = '' +
+                '<div id="content">'+
+                    '<div id="title">'+
+                    '</div>'+
+                    '<h6 id="" class="firstHeading">Seguimiento</h6>'+
+                    '<div id="bodyContent">'+
+                    '<p><strong>Ubicacion {{ forloop.counter }} Marcada</strong></p>'+
+                    '</div>'+
+                '</div>';
+
+            var infowindows{{ forloop.counter }} = new google.maps.InfoWindow({
+                content: contentStrings{{ forloop.counter }},
+                maxWidth: 500
+            });
+            var markers{{ forloop.counter }} = new google.maps.Marker({
+                position: seguimiento,
+                map: map,
+                icon: "{% static 'map-icon/park-asig.png' %}"
+                //title: 'Unicacion Actual del Movil'
+            });
+            markers{{ forloop.counter }}.addListener('click', function() {
+                infowindows{{ forloop.counter }}.open(map, markers{{ forloop.counter }});
+            });
+        {% endfor %}
+
+    }
+</script>
+{% endblock %}

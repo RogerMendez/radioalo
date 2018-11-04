@@ -1,0 +1,45 @@
+{% extends 'base_report.html' %}
+
+{% block title %}
+Pedido en fecha {{ fecha|date:"Y-M-d" }}
+{% endblock %}
+
+{% block content %}
+{% load helper_reportes %}
+<h2>Pedidos desde {{ inicio }} Hasta: {{ fin }}</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th width="30px">#</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Cliente</th>
+            <th>Conductor</th>
+            <th>Costo(Bs.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedidovehiculo in pedidovehiculos %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pedidovehiculo.pedido.fecha }}</td>
+                <td>{{ pedidovehiculo.pedido.time }}</td>
+                <td>{{ pedidovehiculo.pedido.cliente.razon }}</td>
+                <td>{{ pedidovehiculo.conductor }}</td>
+                <td>{{ pedidovehiculo.pedido.monto }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% monto_total pedidovehiculos as total %}
+    <tfoot>
+        <tr>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <th>Total</th>
+            <td>{{ total }}</td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}

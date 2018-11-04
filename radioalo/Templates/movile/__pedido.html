@@ -1,0 +1,74 @@
+{% if pedido %}
+<div class="row">
+    <div class="col-md-6">
+        <h4>Informacion de Pedido</h4>
+        <p>
+            <strong>Cliente: </strong>{{ pedido.pedido.cliente.razon }}
+        </p>
+        <p class="">
+            <strong>Telefono: </strong>{{ pedido.pedido.cliente.telefono }}
+        </p>
+        <p>
+            <strong>Celular: </strong>{{ pedido.pedido.cliente.celular }}
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p>
+            <strong>Fecha: </strong>{{ pedido.pedido.fecha }}
+        </p>
+        <p>
+            <strong>Hora Pedido: </strong>{{ pedido.pedido.time }}
+        </p>
+        <p>
+            <strong>Direccion: </strong>{{ pedido.pedido.direccion }}
+        </p>
+    </div>
+    <div class="col-md-6 align-center">
+        <a href="{% url 'movile-pedido-accept' pedido.pedido.id %}" class="btn btn-lg btn-success accept-pedido" id="">
+            Aceptar
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a href="{% url 'movile-pedido-cancel' pedido.pedido.id %}" class="btn btn-lg btn-danger">
+            Rechazar
+        </a>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('a.accept-pedido').click(function (e) {
+            navigator.geolocation.getCurrentPosition(function(objPosition){
+                var yolon = objPosition.coords.longitude;
+                var yolat = objPosition.coords.latitude;
+                var url = $('a.accept-pedido').attr('href') + '?latitud=' + yolat +'&longitud=' + yolon;
+                $('a.accept-pedido').attr('href', url);
+                //alert(url);
+                location.href = url;
+            },
+            function(objPositionError){
+                var div = $('#errorgeo');
+                div.removeClass('none');
+                switch (objPositionError.code)
+                {
+                    case objPositionError.PERMISSION_DENIED:
+                        div.html("No se ha permitido el acceso a la posición del usuario.");
+                    break;
+                    case objPositionError.POSITION_UNAVAILABLE:
+                        div.html("No se ha podido acceder a la información de su posición.");
+                    break;
+                    case objPositionError.TIMEOUT:
+                        div.html("El servicio ha tardado demasiado tiempo en responder.");
+                    break;
+                    default:
+                        div.html("Error desconocido.");
+                }
+            }, {
+                maximumAge: 30000,
+                timeout: 15000
+            });
+        });
+    });
+</script>
+{% else %}
+    <h3>Aun No Tiene Ningun Pedido</h3>
+{% endif %}

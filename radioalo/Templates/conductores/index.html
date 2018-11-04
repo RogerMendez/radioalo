@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block menuizq %}
+{% include 'conductores/__menu.html' %}
+{% endblock %}
+
+{% block title %}
+Nuestros Conductores
+{% endblock %}
+
+{% block content %}
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Cedula</th>
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Celular</th>
+            <th>Nro. Licencia</th>
+            <th>Categoria</th>
+            <th>Estado</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for conductor in conductores %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ conductor.cedula }}</td>
+                <td>{{ conductor.user.last_name }}</td>
+                <td>{{ conductor.user.first_name }}</td>
+                <td>{{ conductor.cedula }}</td>
+                <td>{{ conductor.nro_licencia }}</td>
+                <td>{{ conductor.categoria }}</td>
+                <td>
+                    {% if conductor.user.is_active == True %}
+                        <a href="{% url 'conductor-deactivate' conductor.user.id %}" class="btn-sm btn btn-success" title="Desactivar Conductor">
+                            <i class="fas fa-check-circle"></i>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'conductor-activate' conductor.user.id %}" class="btn-sm btn btn-danger" title="Activar Conductor">
+                            <i class="fas fa-window-close"></i>
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if 'personal.change_conductor' %}
+                        <a href="{% url 'conductor-update' conductor.user.id %}" class="btn btn-warning btn-sm" title="Modificar Conductor">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                    {% endif %}
+                    {% if 'vehiculois.add_vehiculo' %}
+                        {% if conductor.vehiculo %}
+                            {% if 'vehiculos.change_vehiculo' %}
+                                <a href="{% url 'vehiculo-update' conductor.vehiculo.id %}" class="btn btn-sm btn-primary" title="Modificar Vehiculo">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{% url 'vehiculo-new' conductor.id %}" class="btn btn-info btn-sm" title="Registrar Vehiculo">
+                                <i class="fas fa-car-side"></i>
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>        
+        {% endfor %}
+        
+    </tbody>
+</table>
+{% endblock %}

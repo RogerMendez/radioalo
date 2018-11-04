@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-12">
+        <h2>Informacion de Conductor</h2>
+    </div>
+    <div class="col-md-6">
+        <p class="">
+            <strong>Nombres: </strong>{{ conductor.user.first_name }}
+        </p>
+        <p>
+            <strong>Apellidos: </strong>{{ conductor.user.last_name }}
+        </p>
+        <p class="">
+            <strong>Correo Electronico: </strong>{{ conductor.user.email }}
+        </p>
+    </div>
+    <div class="col-md-6">
+        <p class="">
+            <strong>Celular: </strong>{{ conductor.user.perfil.celular }}
+        </p>
+        <p class="">
+            <strong>Nro. Licencia: </strong>{{ conductor.nro_licencia }}
+        </p>
+    </div>
+</div>
+<hr>

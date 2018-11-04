@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Pedidos en Fecha {{ fecha }}
+{% endblock %}
+
+{% block menuizq %}
+{% include 'reportes/__menu.html' %}
+{% endblock %}
+
+{% block content %}
+{% load helper_reportes %}
+<div class="row">
+    <div class="col-md-6">
+        {% include 'includes/__form_get.html' %}
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-12">
+        {% include 'includes/__info_conductor.html' %}
+    </div>
+</div>
+<h2>Pedidos desde {{ inicio|date }} Hasta: {{ fin|date }}</h2>
+<a href="{% url 'report-vehiculo-entre-fecha-pdf' conductor.vehiculo.id inicio.day inicio.month inicio.year fin.day fin.month fin.year %}" class="btn btn-primary" target="_blank">
+    <i class="fas fa-file-pdf"></i> Ver PDF
+</a>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Hora</th>
+            <th>Cliente</th>
+            <th>Conductor</th>
+            <th>Costo(Bs.)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedidovehiculo in pedidovehiculos %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pedidovehiculo.pedido.time }}</td>
+                <td>{{ pedidovehiculo.pedido.cliente.razon }}</td>
+                <td>{{ pedidovehiculo.conductor }}</td>
+                <td>{{ pedidovehiculo.pedido.monto }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% monto_total pedidovehiculos as total %}
+    <tfoot>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th>Total</th>
+            <td>{{ total }}</td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}

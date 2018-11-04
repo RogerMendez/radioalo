@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nuestros Conductores Activos
+{% endblock %}
+
+{% block menuizq %}
+{% include 'pedidos/__menu.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <h4>Informacion de Pedido</h4>
+        {% include 'includes/__info_pedido.html' %}
+    </div>
+    <div class="col-md-6">
+        <h4>Moviles Asignados</h4>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Conductor</th>
+                    <th>Placa</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aconductor in aconductores %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ aconductor.conductor.user.first_name }} {{ aconductor.conductor.user.last_name }}</td>
+                        <td>{{ aconductor.conductor.vehiculo.placa }}</td>
+                        <td>
+                            <a href="{% url 'pedidos-new-delete-vehiculo-pedido' aconductor.id %}" class="btn btn-sm btn-danger" title="Quitar Vehiculo">
+                                <i class="fa fa-window-close"></i>
+                            </a>
+                        </td>
+                    </tr>                
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        {% if aconductores %}
+            {% if pedido.cantidad == aconductores.count %}
+                <a href="{% url 'pedidos-confirm-vehiculo' pedido.id %}" class="btn-sm btn btn-success">
+                    Confirmar Pedido
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="table-responsive none">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Conductor</th>
+                        <th>Vehiculo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for conductor in conductores %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ conductor.user.first_name }} {{ conductor.user.last_name }}</td>
+                            <td>{{ conductor.vehiculo.placa }}</td>
+                            <td>
+                                <a href="{% url 'pedidos-new-conductor-vehiculo' pedido.id conductor.id %}" class="btn btn-sm btn-info" title="Asignar Pedido">
+                                    <i class="fa fa-caret-square-right"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-12" id="map" style="height: 600px;">
+    </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy3glLO2xspv6L96CRfuncvvBSQDc_rBc&callback=initMap" async defer></script>
+{% load helper_ubicaciones %}
+<script>
+    var map;
+    function initMap() {
+        var latitud = -19.5825546;
+        var longitud = -65.7600394;
+        var myLatLng = {lat: -19.5825546, lng: -65.7600394};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15
+        });
+        {% for conductor in conductores %}
+            {% ubicacion_moviles conductor.vehiculo.id as ubicacion %}
+            var latitud = '{{ ubicacion.latitud }}'.replace(',', '.');
+            var longitud = '{{ ubicacion.longitud }}'.replace(',', '.');
+            //var res = str.replace("Microsoft", "W3Schools");
+            var url = "{% url 'pedidos-new-conductor-vehiculo' pedido.id conductor.id %}";
+            var conductor = "{{ conductor.user.first_name }} {{ conductor.user.last_name }}";
+            var placa = "{{ conductor.vehiculo.placa }}";
+            var tipo = "{{ conductor.vehiculo.tipo }}";
+            var contentString = '<div id="content">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h6 id="firstHeading" class="firstHeading">Vehiculo</h6>'+
+                '<div id="bodyContent">' +
+                '<p><strong>Conductor: </strong>'+ conductor +'</p>'+
+                '<p><strong>Placa: </strong>'+ placa +'</p>'+
+                '<p><strong>Tipo Vehiculo: </strong>'+ tipo + '</p>'+
+                '<p>' +
+                '<a href="'+ url +'">'+
+                'Asignar Vehiculo</a> '+
+                '</p>'+
+                '</div>'+
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+
+            var marker = new google.maps.Marker({
+              position: {lat: parseFloat(latitud), lng: parseFloat(longitud)},
+              map: map,
+              title: 'Uluru (Ayers Rock)'
+            });
+            marker.addListener('click', function() {
+              infowindow.open(map, marker);
+            });
+        {% endfor %}
+
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+
+        directionsDisplay.setMap(map);
+        calcRoute();
+        function calcRoute() {
+            var olat = '{{ pedido.olat }}'.replace(',', '.');
+            var olong = '{{ pedido.olong }}'.replace(',', '.');
+
+            var dlat = '{{ pedido.dlat }}'.replace(',', '.');
+            var dlong = '{{ pedido.dlong }}'.replace(',', '.');
+            var start = new google.maps.LatLng(olat, olong);
+            //19.582344,-65.74898,
+            var end = new google.maps.LatLng(dlat, dlong);
+            //-19.5823061,-65.7495164
+            var waypts = [];
+            var request = {
+                    origin: start,
+                    destination: end,
+                    waypoints: waypts,
+                    optimizeWaypoints: true,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+            directionsService.route(request, function(response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                    var route = response.routes[0];
+                    var summaryPanel = document.getElementById('directions_panel');
+                    summaryPanel.innerHTML = '';
+                    // For each route, display summary information.
+                    for (var i = 0; i < route.legs.length; i++) {
+                        var routeSegment = i + 1;
+                        summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment + '</b><br>';
+                        summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
+                        summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
+                        summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                    }
+                }
+            });
+        }
+    }
+</script>
+{% endblock %}

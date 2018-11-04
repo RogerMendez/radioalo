@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}">
+    <!--link rel="stylesheet" href="{% static 'fontawesome/css/fontawesome.min.css' %}"-->
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+
+    {% block mycss %}{% endblock %}
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+    <!--script>
+        $(document).bind("mobileinit", function(){
+        $.support.cors = true;
+        $.mobile.allowCrossDomainPages = true;
+        });
+    </script>
+    <script src="{% static 'js/jquery.mobile-1.4.5.js' %}"></script-->
+</head>
+<body>
+{% include '__menu.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            {% block menuizq %}{% endblock %}
+        </div>
+        <div class="col-md-9">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if message.tags %}{{ message.tags }}{% endif %}">
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+                <h1>Bienvenidos</h1>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+{% block myjs %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<ul class="list-group">
+    <a href="{% url 'user-index' %}" class="list-group-item text-dark">
+        Mi Informacion
+    </a>
+    <a href="{% url 'user-reset-pass' %}" class="list-group-item text-dark">
+        Modificar Contraseña
+    </a>
+    <a href="{% url 'user-change-username' %}" class="list-group-item text-dark">
+        Modificar Nombre de Usuario
+    </a>
+    {% if user.first_name %}
+        <a href="{% url 'user-update-information' %}" class="list-group-item text-dark">
+            Modificar Perfil
+        </a>
+    {% else %}
+        <a href="{% url 'user-complete-information' %}" class="list-group-item text-dark">
+            Completar Perfil
+        </a>
+    {% endif %}
+</ul>

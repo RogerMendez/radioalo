@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Seguimiento de Pedido
+{% endblock %}
+
+{% block menuizq %}
+{% include 'pedidos/__menu.html' %}
+{% endblock %}
+
+{% block myjs %}
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAy3glLO2xspv6L96CRfuncvvBSQDc_rBc&callback=initMap" async defer></script>
+{% endblock %}
+
+{% block content %}
+{% include 'includes/__info_pedido.html' %}
+<div id="map" style="height: 500px;"></div>
+<script>
+    var map;
+    function initMap() {
+        var latitud = -19.5825546;
+        var longitud = -65.7600394;
+        var myLatLng = {lat: -19.5825546, lng: -65.7600394};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: myLatLng,
+            zoom: 15
+        });
+        var url = "{% url 'pedidos-new-conductor-vehiculo' pedido.id conductor.id %}";
+        var conductor = "{{ conductor.user.first_name }} {{ conductor.user.last_name }}";
+        var placa = "{{ conductor.vehiculo.placa }}";
+        var tipo = "{{ conductor.vehiculo.tipo }}";
+        var contentString = '<div id="content">'+
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h6 id="firstHeading" class="firstHeading">Ubicacion Actual de Movil</h6>'+
+            '<div id="bodyContent">' +
+            '<p><strong>Conductor: </strong>'+ conductor +'</p>'+
+            '<p><strong>Placa: </strong>'+ placa +'</p>'+
+            '<p><strong>Tipo Vehiculo: </strong>'+ tipo + '</p>'+
+            '<p>' +
+            '</p>'+
+            '</div>'+
+            '</div>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString,
+            maxWidth: 500
+        });
+        var marker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Unicacion Actual del Movil'
+        });
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+        positionmarket();
+        function positionmarket(){
+            $.ajax({
+                url:"{% url 'pedidos-ajax-position-actual' pedido.id conductor.id %}",
+                type: "GET",
+                success: function(data){
+                    if (latitud != data[0]['latitud'] && longitud != data[0]['longitud']){
+                        latitud = data[0]['latitud'];
+                        longitud = data[0]['longitud'];
+                        var latlng = new google.maps.LatLng(data[0]['latitud'],data[0]['longitud']);
+                        marker.setPosition(latlng);
+                    }
+                    else{
+                        console.log('no hay cambios en la posicion');
+                    }
+                },
+                failure: function(data){
+                    console.log('error');
+                }
+            });
+        }
+        window.setInterval(positionmarket, 10000);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load staticfiles %}
+<head>
+    <title>Radio Movil ALO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Go Taxi Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+    Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- bootstrap-css -->
+    <link href="{% static 'home/css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all" />
+    <!--// bootstrap-css -->
+    <!-- css -->
+    <link rel="stylesheet" href="{% static 'home/css/style.css' %}" type="text/css" media="all" />
+    <!--// css -->
+    <!-- font-awesome icons -->
+    <link href="{% static 'home/css/font-awesome.css' %}" rel="stylesheet">
+    <!-- //font-awesome icons -->
+    <!-- gallery -->
+    <link href="{% static 'home/css/simplelightbox.min.css' %}" rel='stylesheet' type='text/css'>
+    <!-- //gallery -->
+    <!-- font -->
+    <link href="//fonts.googleapis.com/css?family=Arvo:400,400i,700,700i" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+    <!-- //font -->
+    <script src="{% static 'home/js/jquery-1.11.1.min.js' %}"></script>
+    <script src="{% static 'home/js/bootstrap.js' %}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($) {
+            $(".scroll").click(function(event){
+                event.preventDefault();
+                $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+            });
+        });
+    </script>
+</head>
+<body>
+	<!-- banner -->
+	<div class="banner jarallax">
+		<div class="header">
+			<div class="header-left">
+				<div class="agileinfo-phone">
+					<p><i class="fa fa-volume-control-phone" aria-hidden="true"></i> 2 6222323</p>
+				</div>
+				<div class="agileinfo-phone agileinfo-map">
+					<p><i class="fa fa-map-marker" aria-hidden="true"></i> POTOSI, Bolivia</p>
+				</div>
+				<div class="search-grid">
+					<form action="{% url 'pedidos-verify' %}" method="post">{% csrf_token %}
+						<input type="text" placeholder="Verifica tu Pedido" class="big-dog" name="codigo" required="">
+						<button class="btn1"><i class="fa fa-search" aria-hidden="true"></i></button>
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<div class="w3-header-bottom">
+			<div class="w3layouts-logo">
+				<h1>
+					<a href="/">Radio ALO</a>
+				</h1>
+			</div>
+			<div class="top-nav">
+						<nav class="navbar navbar-default">
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+								<ul class="nav navbar-nav">
+									<li class="first-list"><a class="active" href="/">Inicio</a></li>
+                                    <li><a href="{% url 'pedidos-verify' %}">Verifica tu Pedido</a></li>
+                                    <li><a href="{% url 'user-login' %}">Iniciar Sesion</a></li>
+									<!--li><a href="#about" class="scroll">About</a></li>
+									<li><a href="#gallery" class="scroll">Gallery</a></li>
+									<!--li><a href="#team" class="scroll">Team</a></li>
+									<li><a href="#blog" class="scroll">Blog</a></li>
+									<li><a href="#rate" class="scroll">Rates</a></li>
+									<li><a href="#contact" class="scroll">Contact</a></li-->
+								</ul>
+								<div class="clearfix"> </div>
+							</div>
+						</nav>
+			</div>
+			<div class="agileinfo-social-grids">
+				<ul>
+					<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+					<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+				</ul>
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		<div class="banner-info">
+			<div class="container">
+				<div class="w3-banner-info">
+					<div class="slider">
+						<div class="callbacks_container">
+							<ul class="rslides callbacks callbacks1" id="slider4">
+								<li>
+									<div class="w3layouts-banner-info">
+										<h3>Movil<span>ALO</span></h3>
+										<p>La Huella en POTOSI</p>
+										<div class="w3ls-button">
+											<!--a href="#" data-toggle="modal" data-target="#myModal">Read More</a-->
+										</div>
+									</div>
+								</li>
+								<!--li>
+									<div class="w3layouts-banner-info">
+										<h3>Nulla<span>Go</span>lacinia</h3>
+										<p>Fusce varius id lectus at</p>
+										<div class="w3ls-button">
+											<a href="#" data-toggle="modal" data-target="#myModal">Read More</a>
+										</div>
+									</div>
+								</li-->
+							</ul>
+						</div>
+						<div class="clearfix"> </div>
+                        <script>
+                            // You can also use "$(window).load(function() {"
+                            $(function () {
+                              // Slideshow 4
+                              $("#slider4").responsiveSlides({
+                                auto: true,
+                                pager:true,
+                                nav:false,
+                                speed: 400,
+                                namespace: "callbacks",
+                                before: function () {
+                                  $('.events').append("<li>before event fired.</li>");
+                                },
+                                after: function () {
+                                  $('.events').append("<li>after event fired.</li>");
+                                }
+                              });
+
+                            });
+                         </script>
+                        <!--banner Slider starts Here-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //banner -->
+	<!-- modal -->
+	<div class="modal about-modal fade" id="myModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Go Taxi</h4>
+				</div>
+				<div class="modal-body">
+					<div class="agileits-w3layouts-info">
+						<img src="{% static 'home/images/4.jpg' %}" alt="" />
+						<p>Duis venenatis, turpis eu bibendum porttitor, sapien quam ultricies tellus, ac rhoncus risus odio eget nunc. Pellentesque ac fermentum diam. Integer eu facilisis nunc, a iaculis felis. Pellentesque pellentesque tempor enim, in dapibus turpis porttitor quis. Suspendisse ultrices hendrerit massa. Nam id metus id tellus ultrices ullamcorper.  Cras tempor massa luctus, varius lacus sit amet, blandit lorem. Duis auctor in tortor sed tristique. Proin sed finibus sem</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //modal -->
+	<!-- welcome -->
+	<div class="welcome">
+		<div class="container">
+			<div class="wthree-heading">
+				<h2>Bienvenido</h2>
+				<p>
+                    Años entregando Puntualidad, Esmero, Seriedad, Confianza, Comodidad, Seguridad a nuestros clientes.
+                </p>
+			</div>
+			<div class="w3-welcome-grids">
+				<div class="col-md-4 w3-welcome-grid">
+					<div class="w3-welcome-grid-info">
+						<img src="{% static 'home/images/3.jpg' %}" alt="" />
+						<h4>Traslado de Personas</h4>
+						<p>
+                            Seguridad, rapidez y servicios las 24 horas. Comunicación permanente con el Movil, controlando el viaje.
+                        </p>
+					</div>
+				</div>
+				<div class="col-md-4 w3-welcome-grid">
+					<div class="w3-welcome-grid-info">
+						<img src="{% static 'home/images/4.jpg' %}" alt="" />
+						<h4>Viajes Programados</h4>
+						<p>
+                            Pueden programarse diaria, semanal o mensualmente de modo tal que el pasajero se comunique una sola vez. Nuestro sistema registrará el cronograma y enviará una unidad al domicilio en los días y horas indicados.
+                        </p>
+					</div>
+				</div>
+				<div class="col-md-4 w3-welcome-grid">
+					<div class="w3-welcome-grid-info">
+						<img src="{% static 'home/images/5.jpg' %}" alt="" />
+						<h4>Mensajeria</h4>
+						<p>
+                            Las 24 hs. toda diligencia, pago de servicios, entrega de sobres, paquetes, envío de encomiendas, con choferes y operadores que agotarán sus recursos para que su trámite se cumpla con eficacia y seguridad.
+                        </p>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //welcome -->
+	<!-- about-bottom -->
+	<div class="about-bottom jarallax" id="about">
+		<!-- container -->
+		<div class="container">
+			<div class="wthree-heading about-heading">
+				<h3>Sobre Nosotros</h3>
+				<p>
+                    Somos una empresa con el deseo de mejorar para brindarte un servicio que te mereces¡¡¡
+                </p>
+			</div>
+			<div class="about-bottom-grids">
+				<div class="col-md-6 about-bottom-left">
+					<h4>Mision</h4>
+					<p>
+                        Ofrecerle un servicio de calidad, demostrando nuestra amplia experiencia en el ramo de taxi, para cumplir cumpliendo con las más estrictas normas de seguridad y responsabilidad con nuestros trabajadores, clientes y principalmente con la comunidad. Teniendo en mente que nuestro servicio sea fácil, moderno, seguro y confiable.
+                        Teniendo en mente que nuestro servicio sea fácil, moderno, seguro y confiable.
+					</p>
+				</div>
+				<div class="col-md-6 about-bottom-left about-bottom-right">
+					<h4>Vision</h4>
+					<p>
+                        Nuesta vision es seguir siendo reconocidos como una empresa consolidada y altamente competitiva en el campo del servicio ejecutivo de taxi con base a la calidad de sus servicios, con el profesionalismo de cada uno de sus integrantes y actualizando toda su transmision, innovando hacia el futuro con tecnologia de punta.
+					</p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="about-bottom-grids w3ls-about-bottom-grids">
+				<div class="col-md-12 about-bottom-left">
+					<h4>Valores</h4>
+					<p>
+                        COMPROMISO CON LA CALIDAD: Todas las acciones están encaminadas a satisfacer en forma permanente las necesidades de nuestros clientes y consumidores, apoyadas en procesos eficientes con altos estándares de desempeño.
+HONESTIDAD E INTEGRIDAD: Se identifican con un proceder ético determinado por consideraciones de equidad, justicia, rectitud en los actos y cumplimiento de las normas.
+					</p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+		<!-- //container -->
+	</div>
+	<!-- //about-bottom -->
+	<!-- offer -->
+	<!--div class="offer">
+		<div class="col-md-5 offer-left">
+
+		</div>
+		<div class="col-md-7 offer-right">
+			<div class="wthree-heading offer-heading">
+				<h3>What We Offer</h3>
+			</div>
+			<h4>Tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel nibh venenatis purus rhoncus egestas ac imperdiet odio. Maecenas non augue ac quam viverra interdum. Cras eget sollicitudin dui. Nulla a tortor elementum, suscipit sem vel, posuere dui. Nunc vitae quam dignissim, fringilla nisi ut, suscipit nisl. Nulla sed mauris ut est suscipit efficitur sit amet quis lorem. Nulla convallis dui vel sollicitudin rhoncus. Suspendisse blandit ex ac purus dictum aliquet. Fusce facilisis mi et nunc porttitor laoreet. Sed ut erat sapien. </p>
+		</div>
+		<div class="clearfix"> </div>
+	</div-->
+	<!-- //offer -->
+	<!-- gallery -->
+	<!--div class="gallery" id="gallery">
+		<div class="container">
+			<div class="wthree-heading">
+				<h3>Nuestra Galeria</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+			</div>
+			<div class=" w3-agileits-gallery">
+				<div class="gallery-bg">
+					<div class="gallery-bg-text effect-2">
+						<a href="{% static 'home/images/g1.jpg' %}" class="big"><img src="{% static 'home/images/g1.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur. Praesent cursus aliquam erat a commodo." /></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g2.jpg' %}"><img src="{% static 'home/images/g2.jpg' %}" alt="" title="Donec dictum nisi sit amet ex volutpat interdum."/></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g3.jpg' %}"><img src="{% static 'home/images/g3.jpg' %}" alt="" title="Ut dignissim ipsum dolor, in scelerisque neque commodo sit amet."/></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g4.jpg' %}"><img src="{% static 'home/images/g4.jpg' %}" alt="" title="Nulla molestie nulla et dolor commodo pharetra."/></a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g5.jpg' %}"><img src="{% static 'home/images/g5.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur. Praesent cursus aliquam erat a commodo."/></a>
+					</div>
+				</div>
+				<div class="gallery-bg">
+					<div class="gallery-bg-text effect-2">
+						<a href="{% static 'home/images/g7.jpg' %}" class="big"><img src="{% static 'home/images/g7.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur. Praesent cursus aliquam erat a commodo." /></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g6.jpg' %}"><img src="{% static 'home/images/g6.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur."/></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g8.jpg' %}"><img src="{% static 'home/images/g8.jpg' %}" alt="" title="Nulla molestie nulla et dolor commodo pharetra."/></a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+
+				<div class="gallery-bg">
+					<div class="gallery-bg-text effect-2">
+						<a href="{% static 'home/images/g9.jpg' %}" class="big"><img src="{% static 'home/images/g9.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur. Praesent cursus aliquam erat a commodo." /></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g2.jpg' %}"><img src="{% static 'home/images/g2.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur. Praesent cursus aliquam erat a commodo."/></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g5.jpg' %}"><img src="{% static 'home/images/g5.jpg' %}" alt="" title="Maecenas aliquam nec arcu at efficitur."/></a>
+					</div>
+				</div>
+				<div class="gallery-small gallery-middle">
+					<div class="gallery-small-text effect-3">
+						<a href="{% static 'home/images/g6.jpg' %}"><img src="{% static 'home/images/g6.jpg' %}" alt="" title="Nulla molestie nulla et dolor commodo pharetra."/></a>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div-->
+	<script type="text/javascript" src="{% static 'home/js/simple-lightbox.js' %}"></script>
+	<script>
+				$(function(){
+					var $gallery = $('.gallery a').simpleLightbox();
+
+					$gallery.on('show.simplelightbox', function(){
+						console.log('Requested for showing');
+					})
+					.on('shown.simplelightbox', function(){
+						console.log('Shown');
+					})
+					.on('close.simplelightbox', function(){
+						console.log('Requested for closing');
+					})
+					.on('closed.simplelightbox', function(){
+						console.log('Closed');
+					})
+					.on('change.simplelightbox', function(){
+						console.log('Requested for change');
+					})
+					.on('next.simplelightbox', function(){
+						console.log('Requested for next');
+					})
+					.on('prev.simplelightbox', function(){
+						console.log('Requested for prev');
+					})
+					.on('nextImageLoaded.simplelightbox', function(){
+						console.log('Next image loaded');
+					})
+					.on('prevImageLoaded.simplelightbox', function(){
+						console.log('Prev image loaded');
+					})
+					.on('changed.simplelightbox', function(){
+						console.log('Image changed');
+					})
+					.on('nextDone.simplelightbox', function(){
+						console.log('Image changed to next');
+					})
+					.on('prevDone.simplelightbox', function(){
+						console.log('Image changed to prev');
+					})
+					.on('error.simplelightbox', function(e){
+						console.log('No image found, go to the next/prev');
+						console.log(e);
+					});
+				});
+	</script>
+	<!-- //gallery -->
+	<!-- testimonial -->
+	<!--div class="testimonial">
+		<div class="container">
+			<div class="wthree-heading">
+				<h3>Testimonials</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+			</div>
+			<div class="testimonial-grids">
+				<div class="col-md-4 testimonial-grid">
+					<h4>Customer Says</h4>
+					<div class="testimonial-info">
+						<p><span>"</span> Quisque varius, nibh ac feugiat interdum, libero massa laoreet tellus, nec congue lorem arcu a nunc. Praesent quis felis eget</p>
+						<h5>EMMA S.</h5>
+					</div>
+					<div class="testimonial-info">
+						<p><span>" </span> Vestibulum et consequat justo. Maecenas ultrices malesuada leo porta venenatis. Sed sit amet diam facilisis, interdum tellus nec</p>
+						<h5>JOHN D.</h5>
+					</div>
+					<div class="testimonial-info">
+						<p><span>" </span> Cras elementum sed mi sit amet ullamcorper. Cras sed felis a enim rutrum lobortis a eu nisi. Curabitur justo libero, hendrerit at</p>
+						<h5>EMMA S.</h5>
+					</div>
+				</div>
+				<div class="col-md-8 testimonial-grid-right">
+					<h4>Latest Offers</h4>
+					<div class="Works-grids">
+						<div class="col-md-4 Works-grid">
+							<img src="images/3.jpg" class="img-responsive" alt=""/>
+						<p>Kasertas lertyasea deeraeser miasera lertasa ritise doloert ferdas caplicabo nerafaes asety u lasec vaserat.</p>
+						</div>
+						<div class="col-md-4 Works-grid">
+							<img src="images/4.jpg" class="img-responsive" alt=""/>
+						<p>Kasertas lertyasea deeraeser miasera lertasa ritise doloert ferdas caplicabo nerafaes asety u lasec vaserat.</p>
+						</div>
+						<div class="col-md-4 Works-grid">
+							<img src="images/5.jpg" class="img-responsive" alt=""/>
+						<p>Kasertas lertyasea deeraeser miasera lertasa ritise doloert ferdas caplicabo nerafaes asety u lasec vaserat.</p>
+						</div>
+							<div class="clearfix"></div>
+					</div>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+		</div>
+	</div-->
+	<!-- //testimonial -->
+	<!-- team -->
+	<!--div class="team jarallax" id="team">
+		<div class="team-dot">
+			<div class="container">
+				<div class="wthree-heading about-heading">
+					<h3>Fantastic Team</h3>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+				</div>
+				<div class="agile-team-grids">
+					<div class="col-sm-3 team-grid">
+						<div class="flip-container">
+							<div class="flipper">
+								<div class="front">
+									<img src="images/t1.jpg" alt="" />
+								</div>
+								<div class="back">
+									<h4>Peter Parker</h4>
+									<p>Vestibulum </p>
+									<div class="w3l-social">
+										<ul>
+											<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="#"><i class="fa fa-rss"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 team-grid">
+						<div class="flip-container">
+							<div class="flipper">
+								<div class="front">
+									<img src="images/t2.jpg" alt="" />
+								</div>
+								<div class="back">
+									<h4>Steven Wilson</h4>
+									<p>Quisque vitae</p>
+									<div class="w3l-social">
+										<ul>
+											<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="#"><i class="fa fa-rss"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 team-grid">
+						<div class="flip-container">
+							<div class="flipper">
+								<div class="front">
+									<img src="images/t3.jpg" alt="" />
+								</div>
+								<div class="back">
+									<h4>Johan Botha</h4>
+									<p>Nulla molestie</p>
+									<div class="w3l-social">
+										<ul>
+											<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="#"><i class="fa fa-rss"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-3 team-grid">
+						<div class="flip-container">
+							<div class="flipper">
+								<div class="front">
+									<img src="images/t4.jpg" alt="" />
+								</div>
+								<div class="back">
+									<h4>Mary Jane</h4>
+									<p>Aliquam non</p>
+									<div class="w3l-social">
+										<ul>
+											<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="#"><i class="fa fa-rss"></i></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div-->
+	<!-- //team -->
+	<!-- blog -->
+	<!--div id="blog" class="blog">
+		<div class="container">
+			<div class="wthree-heading">
+				<h3>Blog</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+			</div>
+			<div class="blog-agileinfo">
+				<div class="col-md-6 blog-w3grid-img">
+					<a href="#myModal" data-toggle="modal" class="wthree-blogimg">
+						<img src="images/4.jpg" class="img-responsive" alt=""/>
+					</a>
+				</div>
+				<div class="col-md-6 blog-w3grid-text">
+					<h4><a href="#myModal" data-toggle="modal">Soluta vum nobis</a></h4>
+					<h6>By <a href="#"> Admin</a> - Nov 25th, 2016 </h6>
+					<p>Sed interdum interdum accumsan. Aenean nec purus ac orci finibus facilisis. In sit amet placerat nisl, in auctor sapien. Donec ultricies faucibus ante in mattis earum rerum delectus in auctor sapien. </p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="blog-agileinfo blog-agileinfo-mdl">
+				<div class="col-md-6 blog-w3grid-img blog-img-rght">
+					<a href="#myModal" data-toggle="modal" class="wthree-blogimg">
+						<img src="images/6.jpg" class="img-responsive" alt=""/>
+					</a>
+				</div>
+				<div class="col-md-6 blog-w3grid-text">
+					<h4><a href="#myModal" data-toggle="modal">Aenean nec purus ac</a></h4>
+					<h6>By <a href="#"> Admin</a> - Dec 31st, 2015 </h6>
+					<p>Sed interdum interdum accumsan. Aenean nec purus ac orci finibus facilisis. In sit amet placerat nisl, in auctor sapien. Donec ultricies faucibus ante in mattis earum rerum hic a sapiente delectus. </p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<div class="blog-agileinfo">
+				<div class="col-md-6 blog-w3grid-img">
+					<a href="#myModal" data-toggle="modal" class="wthree-blogimg">
+						<img src="images/5.jpg" class="img-responsive" alt=""/>
+					</a>
+				</div>
+				<div class="col-md-6 blog-w3grid-text">
+					<h4><a href="#myModal" data-toggle="modal">Mattis earum rerum</a></h4>
+					<h6>By <a href="#"> Admin</a> - Dec 25th, 2016 </h6>
+					<p>Sed interdum interdum accumsan. Aenean nec purus ac orci finibus facilisis. In sit amet placerat nisl, in auctor sapien. Donec ultricies faucibus ante rerum hic a sapiente delectus in auctor sapien. </p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div-->
+	<!-- //blog -->
+	<!-- rate -->
+	<!--div class="rate jarallax" id="rate">
+		<div class="container">
+			<div class="wthree-heading about-heading">
+				<h3>Rates for Go Taxi</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+			</div>
+			<div class="agileinfo-rate-grids">
+				<div class="agileinfo-rate-grid-nfo">
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>First 30 Min</li>
+							<li>$4</li>
+						</ul>
+					</div>
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>More Than 30 Min</li>
+							<li>$5</li>
+						</ul>
+					</div>
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>Out Of City</li>
+							<li>+$4/M</li>
+						</ul>
+					</div>
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>waiting over 10 min</li>
+							<li>$2</li>
+						</ul>
+					</div>
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>Baby chair</li>
+							<li>+$1</li>
+						</ul>
+					</div>
+					<div class="agileinfo-rate-grid">
+						<ul>
+							<li>1 animal</li>
+							<li>+$4</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div-->
+	<!-- //rate -->
+	<!-- contact -->
+	<!--div class="contact" id="contact">
+		<div class="container">
+			<div class="wthree-heading">
+				<h3>Contact Us</h3>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nisi velit. Ut id velit ex. Donec quis sapien gravida, rutrum metus eu, viverra elit. Sed sodales commodo ex, id porttitor leo ullamcorper nec.</p>
+			</div>
+			<div class="address">
+				<div class="col-sm-4 address-grids">
+					<h4>Address :</h4>
+					<p>Eiusmod Tempor inc<br>
+						<span>St Dolore Place,</span>
+						San Francisco 56777
+					</p>
+				</div>
+				<div class="col-sm-4 address-grids">
+					<h4>Phone :</h4>
+					<p>+2 123 456 789</p>
+					<p>+2 987 654 321</p>
+				</div>
+				<div class="col-sm-4 address-grids">
+					<h4>Email :</h4>
+					<p><a href="mailto:example@email.com">mail@example.com</a></p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+			<!--div class="contact-form">
+				<h4>Contact Form</h4>
+				<form action="#" method="post">
+					<div class="fields-grid">
+						<div class="styled-input agile-styled-input-top">
+							<input type="text" name="Full Name" required="">
+							<label>Full Name</label>
+							<span></span>
+						</div>
+						<div class="styled-input agile-styled-input-top">
+							<input type="text" name="Phone" required="">
+							<label>Phone</label>
+							<span></span>
+						</div>
+						<div class="styled-input">
+							<input type="email" name="Email" required="">
+							<label>Email</label>
+							<span></span>
+						</div>
+						<div class="styled-input">
+							<input type="text" name="Subject" required="">
+							<label>Subject</label>
+							<span></span>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="styled-input textarea-grid">
+						<textarea name="Message" required=""></textarea>
+						<label>Message</label>
+						<span></span>
+					</div>
+					<input type="submit" value="SEND">
+				</form>
+			</div>
+			<div class="agileits-w3layouts-map">
+				<h4>Location</h4>
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d100949.24429313939!2d-122.44206553967531!3d37.75102885910819!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80859a6d00690021%3A0x4a501367f076adff!2sSan+Francisco%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1472190196783" style="border:0" allowfullscreen></iframe>
+			</div-->
+		</div>
+	</div>
+	<!-- //contact -->
+	<!-- footer -->
+		<footer>
+			<div class="w3ls-footer-grids">
+				<div class="container">
+					<div class="col-md-6 w3l-footer two">
+						<h3>MANTENGASE CONECTADO</h3>
+						<ul>
+							<li><a class="fb" href="#"><i class="fa fa-facebook"></i>Me Gusta en Facebook</a></li>
+							<li><a class="fb1" href="#"><i class="fa fa-twitter"></i>Seguenos en Twitter</a></li>
+							<li><a class="fb2" href="#"><i class="fa fa-google-plus"></i>Agreganos en Google Plus</a></li>
+						</ul>
+					</div>
+					<div class="col-md-6 w3l-footer three">
+						<h3>Informacion de Contacto</h3>
+						<ul>
+							<li><i class="fa fa-map-marker"></i><p>Radio Movil ALO <span>POTOSI, Bolivia</span>Av. 6 de agosto N°79 Z/ Ciudad Satélite. </p><div class="clearfix"></div> </li>
+							<li><i class="fa fa-phone"></i><p>26222323 - 26247777 - 26247070</p> <div class="clearfix"></div> </li>
+							<li><i class="fa fa-envelope-o"></i><a href="mailto:info@aloradiotaxi.com">info@aloradiotaxi.com</a> <div class="clearfix"></div></li>
+						</ul>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+			<div class="copy-right-grids">
+				<div class="container">
+					<div class="copy-left">
+						<p class="footer-gd">© 2018 Radio Movil ALO. Derechos Reservados | <a href="#" target="_blank">UATF</a></p>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</footer>
+	<!-- //footer -->
+	<script src="{% static 'home/js/responsiveslides.min.js' %}"></script>
+	<script src="{% static 'home/js/jarallax.js' %}"></script>
+	<script src="{% static 'home/js/SmoothScroll.min.js' %}"></script>
+	<script type="text/javascript">
+		/* init Jarallax */
+		$('.jarallax').jarallax({
+			speed: 0.5,
+			imgWidth: 1366,
+			imgHeight: 768
+		})
+	</script>
+
+	<script type="text/javascript" src="{% static 'home/js/move-top.js' %}"></script>
+	<script type="text/javascript" src="{% static 'home/js/easing.js' %}"></script>
+	<!-- here stars scrolling icon -->
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+				var defaults = {
+				containerID: 'toTop', // fading element id
+				containerHoverID: 'toTopHover', // fading element hover id
+				scrollSpeed: 1200,
+				easingType: 'linear'
+				};
+			*/
+
+			$().UItoTop({ easingType: 'easeOutQuart' });
+
+			});
+	</script>
+	<!-- //here ends scrolling icon -->
+</body>
+</html>

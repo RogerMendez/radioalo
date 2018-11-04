@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Nuestras Operadoras
+{% endblock %}
+
+{% block menuizq %}
+{% include 'operadores/__menu.html' %}
+{% endblock %}
+
+{% block content %}
+<h3>Nuestras Operadoras</h3>
+<div class="table-responsive">
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Operador(a)</th>
+                <th>Cedula Identidad</th>
+                <th>Telefono</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for operador in operadores %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ operador.user.first_name }} {{ operador.user.last_name }}</td>
+                    <td>{{ operador.cedula }}</td>
+                    <td>{{ operador.phone }}</td>
+                    <td>
+                        {% if operador.user.is_active == True %}
+                            <a href="{% url 'operador-deactivate' operador.user.id %}" class="btn-sm btn btn-success" title="Desactivar Operador">
+                                <i class="fas fa-check-circle"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'operador-activate' operador.user.id %}" class="btn-sm btn btn-danger" title="Activar Operador">
+                                <i class="fas fa-window-close"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if 'personal.change_operador' in perms %}
+                            <a href="{% url 'operador-update' operador.user.id %}" class="btn btn-warning btn-sm" title="Modificar Operador">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+{% endblock %}

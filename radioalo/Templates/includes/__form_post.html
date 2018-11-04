@@ -1,0 +1,42 @@
+<form class="" method="post" action="">{% csrf_token %}
+    <fieldset class="form-group">
+        <legend>Formulario</legend>
+        {% for field in form %}
+            {% if field.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ field.errors }}
+                </div>
+            {% endif %}
+            <div class="form-group row">
+                {{ field.label_tag }}
+                <div class="col-md-9">
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small id="emailHelp" class="form-text text-muted">
+                            {{ field.help_text|safe }}
+                        </small>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="form-group row">
+            <div class="col-md-2"></div>
+            <div class="col-md-10 ">
+                <button type="submit" class="btn btn-primary">{% block submit %}Guardar{% endblock %}</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<script>
+$(document).ready(function () {
+    $('label').addClass('col-sm-3 col-form-label');
+    $('input').addClass('form-control');
+    $('select').addClass('custom-select');
+    $('textarea').addClass('form-control');
+});
+</script>
+<style>
+ul.errorlist{
+    height: 10px;
+}
+</style>
